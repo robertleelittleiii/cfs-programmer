@@ -1,1 +1,6 @@
 .DS_Store
+
+# Build artifacts
+firmware/build/
+firmware/build-esp32/
+mac-app/build/
