@@ -1,0 +1,35 @@
+/Users/rlittle/Development/cfs-programmer/firmware/build-esp32/libraries/BLE/BLEBeacon.cpp.o: \
+ /Users/rlittle/Library/Arduino15/packages/esp32/hardware/esp32/3.3.8/libraries/BLE/src/BLEBeacon.cpp \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/soc/esp32/include/soc/soc_caps.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/qio_qspi/include/sdkconfig.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/hardware/esp32/3.3.8/libraries/BLE/src/BLEBeacon.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/hardware/esp32/3.3.8/libraries/BLE/src/BLEUUID.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/hardware/esp32/3.3.8/cores/esp32/WString.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/hardware/esp32/3.3.8/cores/esp32/pgmspace.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/newlib/platform_include/ctype.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/bt/host/bluedroid/api/include/api/esp_gatt_defs.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/bt/host/bluedroid/api/include/api/esp_bt_defs.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/hardware/esp32/3.3.8/cores/esp32/esp32-hal-log.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_timer/include/esp_timer.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/newlib/platform_include/stdio.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_common/include/esp_err.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_common/include/esp_compiler.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_hw_support/include/esp_etm.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_rom/esp32/include/esp32/rom/ets_sys.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_rom/include/esp_rom_sys.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/soc/esp32/include/soc/reset_reasons.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log_config.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log_level.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_common/include/esp_assert.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log_color.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log_buffer.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log_timestamp.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log_write.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log_format.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log_args.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_common/include/esp_macros.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_common/include/esp_assert.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_log_attr.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/esp_common/include/esp_attr.h \
+ /Users/rlittle/Library/Arduino15/packages/esp32/tools/esp32-libs/3.3.8/include/log/include/esp_private/log_attr.h

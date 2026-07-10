@@ -1,0 +1,936 @@
+{
+  "source": "/Users/rlittle/Development/cfs-programmer/mac-app/CFS Programmer/ContentView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "CFS Programmer",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 36
+        }
+      },
+      {
+        "comment": "",
+        "key": "Dashboard",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 49
+        }
+      },
+      {
+        "comment": "",
+        "key": "Read Tag",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 51
+        }
+      },
+      {
+        "comment": "",
+        "key": "Write Tags",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 53
+        }
+      },
+      {
+        "comment": "",
+        "key": "Materials",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 55
+        }
+      },
+      {
+        "comment": "",
+        "key": "Settings",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 57
+        }
+      },
+      {
+        "comment": "",
+        "key": "Debug Log",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 59
+        }
+      },
+      {
+        "comment": "",
+        "key": "Connect",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 113
+        }
+      },
+      {
+        "comment": "",
+        "key": "Device Status",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 143
+        }
+      },
+      {
+        "comment": "",
+        "key": "FW: %@",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 161
+        }
+      },
+      {
+        "comment": "",
+        "key": "CFS Programmer",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 180
+        }
+      },
+      {
+        "comment": "",
+        "key": "Searching for device...",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 204
+        }
+      },
+      {
+        "comment": "",
+        "key": "Device Connected",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 187
+        }
+      },
+      {
+        "comment": "",
+        "key": "Firmware: %@",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 190
+        }
+      },
+      {
+        "comment": "",
+        "key": "Update Available!",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 197
+        }
+      },
+      {
+        "comment": "",
+        "key": "Read Tag",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 351
+        }
+      },
+      {
+        "comment": "",
+        "key": "Scan and decode CFS tag information",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 355
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 490
+        }
+      },
+      {
+        "comment": "",
+        "key": "Generic / third-party brand codes are normal. The K2 material database includes Generic TPU, PLA, PETG, etc. — the printer accepts them when the film ID matches a profile.",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 435
+        }
+      },
+      {
+        "comment": "",
+        "key": "Read Another Tag",
+        "location": {
+          "startingColumn": 32,
+          "startingLine": 457
+        }
+      },
+      {
+        "comment": "",
+        "key": "This usually means decrypt failed, wrong key, or a non-CFS tag — not that the brand is wrong.",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 381
+        }
+      },
+      {
+        "comment": "",
+        "key": "Color:",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 417
+        }
+      },
+      {
+        "comment": "",
+        "key": "#%@",
+        "location": {
+          "startingColumn": 50,
+          "startingLine": 424
+        }
+      },
+      {
+        "comment": "",
+        "key": "Write Tags",
+        "location": {
+          "startingColumn": 52,
+          "startingLine": 448
+        }
+      },
+      {
+        "comment": "",
+        "key": "Write Tags with This Info",
+        "location": {
+          "startingColumn": 67,
+          "startingLine": 448
+        }
+      },
+      {
+        "comment": "",
+        "key": "Waiting for tag...",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 474
+        }
+      },
+      {
+        "comment": "",
+        "key": "Ready to read",
+        "location": {
+          "startingColumn": 61,
+          "startingLine": 474
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reading...",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 482
+        }
+      },
+      {
+        "comment": "",
+        "key": "Read Tag",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 482
+        }
+      },
+      {
+        "comment": "",
+        "key": "Write Dual Tag Set",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 671
+        }
+      },
+      {
+        "comment": "",
+        "key": "Configure and write matching front/back tags",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 675
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 839
+        }
+      },
+      {
+        "comment": "",
+        "key": "Write Another Set",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 876
+        }
+      },
+      {
+        "comment": "",
+        "key": "Material",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 704
+        }
+      },
+      {
+        "comment": "",
+        "key": "Specifications",
+        "location": {
+          "startingColumn": 33,
+          "startingLine": 739
+        }
+      },
+      {
+        "comment": "",
+        "key": "Preview",
+        "location": {
+          "startingColumn": 37,
+          "startingLine": 763
+        }
+      },
+      {
+        "comment": "",
+        "key": "No materials loaded. Open Materials tab or restart the app to seed the K2 catalog.",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 729
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld materials available%@ · %lld brands",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 733
+        }
+      },
+      {
+        "comment": "",
+        "key": "Brand / Vendor",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 705
+        }
+      },
+      {
+        "comment": "",
+        "key": "Material",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 720
+        }
+      },
+      {
+        "comment": "",
+        "key": "All brands",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 706
+        }
+      },
+      {
+        "comment": "",
+        "key": "Select material...",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 721
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ (%@)",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 723
+        }
+      },
+      {
+        "comment": "",
+        "key": "Weight",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 740
+        }
+      },
+      {
+        "comment": "",
+        "key": "Color",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 749
+        }
+      },
+      {
+        "comment": "",
+        "key": "Use Custom Serial",
+        "location": {
+          "startingColumn": 36,
+          "startingLine": 751
+        }
+      },
+      {
+        "comment": "",
+        "key": "Serial (6 digits)",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 754
+        }
+      },
+      {
+        "comment": "",
+        "key": "Color:",
+        "location": {
+          "startingColumn": 46,
+          "startingLine": 772
+        }
+      },
+      {
+        "comment": "",
+        "key": "Write Both Tags",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 799
+        }
+      },
+      {
+        "comment": "",
+        "key": "Complete!",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 857
+        }
+      },
+      {
+        "comment": "",
+        "key": "Both tags written successfully",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 861
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete Material?",
+        "location": {
+          "startingColumn": 13,
+          "startingLine": 1240
+        }
+      },
+      {
+        "comment": "",
+        "key": "Material Database",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1148
+        }
+      },
+      {
+        "comment": "",
+        "key": "Add Material",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 1155
+        }
+      },
+      {
+        "comment": "",
+        "key": "Search materials...",
+        "location": {
+          "startingColumn": 27,
+          "startingLine": 1165
+        }
+      },
+      {
+        "comment": "",
+        "key": "Click Add Material to create one.",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1181
+        }
+      },
+      {
+        "comment": "",
+        "key": "No materials yet",
+        "location": {
+          "startingColumn": 47,
+          "startingLine": 1177
+        }
+      },
+      {
+        "comment": "",
+        "key": "No matching materials",
+        "location": {
+          "startingColumn": 68,
+          "startingLine": 1177
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 1205
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 1212
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 1220
+        }
+      },
+      {
+        "comment": "",
+        "key": "Edit",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 1225
+        }
+      },
+      {
+        "comment": "",
+        "key": "Delete",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1244
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1250
+        }
+      },
+      {
+        "comment": "",
+        "key": "Are you sure you want to delete \"%@\"? This cannot be undone.",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1255
+        }
+      },
+      {
+        "comment": "",
+        "key": "Double-click to edit · Right-click for more options",
+        "location": {
+          "startingColumn": 15,
+          "startingLine": 1296
+        }
+      },
+      {
+        "comment": "",
+        "key": "%@ · %@",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1270
+        }
+      },
+      {
+        "comment": "",
+        "key": "Basic Info",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 1352
+        }
+      },
+      {
+        "comment": "",
+        "key": "Notes",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 1392
+        }
+      },
+      {
+        "comment": "",
+        "key": "Identity",
+        "location": {
+          "startingColumn": 29,
+          "startingLine": 1398
+        }
+      },
+      {
+        "comment": "",
+        "key": "Name",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 1353
+        }
+      },
+      {
+        "comment": "",
+        "key": "Brand",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1355
+        }
+      },
+      {
+        "comment": "",
+        "key": "Material Type",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 1363
+        }
+      },
+      {
+        "comment": "",
+        "key": "Select brand...",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1356
+        }
+      },
+      {
+        "comment": "",
+        "key": "Density (g/cm³)",
+        "location": {
+          "startingColumn": 30,
+          "startingLine": 1383
+        }
+      },
+      {
+        "comment": "",
+        "key": "Density",
+        "location": {
+          "startingColumn": 35,
+          "startingLine": 1385
+        }
+      },
+      {
+        "comment": "",
+        "key": "Notes (optional)",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 1393
+        }
+      },
+      {
+        "comment": "",
+        "key": "ID",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 1399
+        }
+      },
+      {
+        "comment": "",
+        "key": "Created",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 1400
+        }
+      },
+      {
+        "comment": "",
+        "key": "Modified",
+        "location": {
+          "startingColumn": 40,
+          "startingLine": 1401
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 1408
+        }
+      },
+      {
+        "comment": "",
+        "key": "Firmware Update Available",
+        "location": {
+          "startingColumn": 16,
+          "startingLine": 1627
+        }
+      },
+      {
+        "comment": "",
+        "key": "Settings",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 1530
+        }
+      },
+      {
+        "comment": "",
+        "key": "Device Information",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1537
+        }
+      },
+      {
+        "comment": "",
+        "key": "WiFi Configuration",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1549
+        }
+      },
+      {
+        "comment": "",
+        "key": "Firmware Updates",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1569
+        }
+      },
+      {
+        "comment": "",
+        "key": "About",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 1612
+        }
+      },
+      {
+        "comment": "",
+        "key": "Configure WiFi for OTA updates",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 1554
+        }
+      },
+      {
+        "comment": "",
+        "key": "Configure WiFi",
+        "location": {
+          "startingColumn": 54,
+          "startingLine": 1561
+        }
+      },
+      {
+        "comment": "",
+        "key": "WiFi: %@",
+        "location": {
+          "startingColumn": 73,
+          "startingLine": 1561
+        }
+      },
+      {
+        "comment": "",
+        "key": "Current: %@",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 1575
+        }
+      },
+      {
+        "comment": "",
+        "key": "Update available!",
+        "location": {
+          "startingColumn": 42,
+          "startingLine": 1578
+        }
+      },
+      {
+        "comment": "",
+        "key": "Checking...",
+        "location": {
+          "startingColumn": 56,
+          "startingLine": 1595
+        }
+      },
+      {
+        "comment": "",
+        "key": "Check for Updates",
+        "location": {
+          "startingColumn": 72,
+          "startingLine": 1595
+        }
+      },
+      {
+        "comment": "",
+        "key": "Install Update",
+        "location": {
+          "startingColumn": 43,
+          "startingLine": 1602
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1628
+        }
+      },
+      {
+        "comment": "",
+        "key": "Install Now",
+        "location": {
+          "startingColumn": 20,
+          "startingLine": 1629
+        }
+      },
+      {
+        "comment": "",
+        "key": "Version %@ is available. The device will reboot after the update completes (30-60 seconds).",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 1633
+        }
+      },
+      {
+        "comment": "",
+        "key": "WiFi Configuration",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 1837
+        }
+      },
+      {
+        "comment": "",
+        "key": "Required for OTA firmware updates",
+        "location": {
+          "startingColumn": 18,
+          "startingLine": 1841
+        }
+      },
+      {
+        "comment": "",
+        "key": "Network Settings",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 1846
+        }
+      },
+      {
+        "comment": "",
+        "key": "WiFi Network Name (SSID)",
+        "location": {
+          "startingColumn": 31,
+          "startingLine": 1847
+        }
+      },
+      {
+        "comment": "",
+        "key": "Password",
+        "location": {
+          "startingColumn": 39,
+          "startingLine": 1852
+        }
+      },
+      {
+        "comment": "",
+        "key": "Password",
+        "location": {
+          "startingColumn": 41,
+          "startingLine": 1855
+        }
+      },
+      {
+        "comment": "",
+        "key": "Cancel",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 1875
+        }
+      },
+      {
+        "comment": "",
+        "key": "Saving...",
+        "location": {
+          "startingColumn": 38,
+          "startingLine": 1883
+        }
+      },
+      {
+        "comment": "",
+        "key": "Save",
+        "location": {
+          "startingColumn": 52,
+          "startingLine": 1883
+        }
+      },
+      {
+        "comment": "",
+        "key": "Debug Log",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 2117
+        }
+      },
+      {
+        "comment": "",
+        "key": "%lld entries",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 2123
+        }
+      },
+      {
+        "comment": "",
+        "key": "Auto-scroll",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 2127
+        }
+      },
+      {
+        "comment": "",
+        "key": "Copy All",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 2130
+        }
+      },
+      {
+        "comment": "",
+        "key": "Clear",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 2134
+        }
+      },
+      {
+        "comment": "",
+        "key": "BLE traffic and read/write events — use while debugging tag issues",
+        "location": {
+          "startingColumn": 22,
+          "startingLine": 2141
+        }
+      },
+      {
+        "comment": "",
+        "key": "File:",
+        "location": {
+          "startingColumn": 26,
+          "startingLine": 2146
+        }
+      },
+      {
+        "comment": "",
+        "key": "Reveal",
+        "location": {
+          "startingColumn": 28,
+          "startingLine": 2156
+        }
+      },
+      {
+        "comment": "",
+        "key": "No log entries yet. Connect to the device and read or write a tag.",
+        "location": {
+          "startingColumn": 34,
+          "startingLine": 2172
+        }
+      }
+    ]
+  },
+  "version": 1
+}

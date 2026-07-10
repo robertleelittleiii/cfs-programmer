@@ -33,17 +33,25 @@
 
 #ifdef HAS_ESP_IDF_5
 
+#include <Arduino.h>
+
 static SemaphoreHandle_t show_mutex = NULL;
+static volatile bool g_espShowSucceeded = false;
+
+#define SEMAPHORE_TIMEOUT_MS 1000
+
+bool espShowLastSucceeded(void) {
+  return g_espShowSucceeded;
+}
 
 void espShow(uint8_t pin, uint8_t *pixels, uint32_t numBytes, boolean is800KHz) {
+  g_espShowSucceeded = false;
   // Note: Because rmtPin is shared between all instances, we will
   //  end up releasing/initializing the RMT channels each time we
   //  invoke on different pins. This is probably ok, just not
   //  efficient. led_data is shared between all instances but will
   //  be allocated with enough space for the largest instance; data
   //  is not used beyond the mutex lock so this should be fine.
-
-#define SEMAPHORE_TIMEOUT_MS 50
 
   static rmt_data_t *led_data = NULL;
   static uint32_t led_data_size = 0;
@@ -78,8 +86,9 @@ void espShow(uint8_t pin, uint8_t *pixels, uint32_t numBytes, boolean is800KHz) 
           rmtDeinit(rmtPin);
           rmtPin = -1;
         }
-        if (!rmtInit(pin, RMT_TX_MODE, RMT_MEM_NUM_BLOCKS_1, 10000000)) {
+        if (!rmtInit(pin, RMT_TX_MODE, RMT_MEM_NUM_BLOCKS_2, 10000000)) {
           log_e("Failed to init RMT TX mode on pin %d", pin);
+          log_e("[LED] RMT init FAILED on GPIO %d", pin);
           return;
         }
         rmtPin = pin;
@@ -105,10 +114,13 @@ void espShow(uint8_t pin, uint8_t *pixels, uint32_t numBytes, boolean is800KHz) 
         }
 
         rmtWrite(pin, led_data, numBytes * 8, RMT_WAIT_FOR_EVER);
+        g_espShowSucceeded = true;
       }
     }
 
     xSemaphoreGive(show_mutex);
+  } else {
+    log_w("[LED] RMT mutex timeout — show() skipped");
   }
 }
 
@@ -185,7 +197,14 @@ static void IRAM_ATTR ws2812_rmt_adapter(const void *src, rmt_item32_t *dest, si
     *item_num = num;
 }
 
+static volatile bool g_espShowSucceeded = false;
+
+bool espShowLastSucceeded(void) {
+  return g_espShowSucceeded;
+}
+
 void espShow(uint8_t pin, uint8_t *pixels, uint32_t numBytes, boolean is800KHz) {
+    g_espShowSucceeded = false;
     // Reserve channel
     rmt_channel_t channel = ADAFRUIT_RMT_CHANNEL_MAX;
     for (size_t i = 0; i < ADAFRUIT_RMT_CHANNEL_MAX; i++) {
@@ -270,6 +289,7 @@ void espShow(uint8_t pin, uint8_t *pixels, uint32_t numBytes, boolean is800KHz) 
     rmt_reserved_channels[channel] = false;
 
     gpio_set_direction(pin, GPIO_MODE_OUTPUT);
+    g_espShowSucceeded = true;
 }
 
 #endif // ifndef IDF5

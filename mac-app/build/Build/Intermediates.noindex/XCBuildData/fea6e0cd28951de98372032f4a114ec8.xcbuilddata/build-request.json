@@ -1,0 +1,65 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "c2ea3b4f69d80ea48619e03843e1c8cff8a14b75db7157d5376693b97222d287"
+    }
+  ],
+  "containerPath" : "/Users/rlittle/Development/cfs-programmer/mac-app/CFS Programmer/CFS Programmer.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "arm64",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : false,
+      "hostTargetedPlatform" : null,
+      "platform" : "macosx",
+      "sdk" : "macosx26.5",
+      "sdkVariant" : "macos",
+      "supportedArchitectures" : [
+        "arm64e",
+        "arm64",
+        "x86_64"
+      ],
+      "targetArchitecture" : "arm64"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/rlittle/Development/cfs-programmer/mac-app/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/rlittle/Development/cfs-programmer/mac-app/build/Build/Products",
+      "derivedDataPath" : "/Users/rlittle/Development/cfs-programmer/mac-app/build",
+      "indexDataStoreFolderPath" : "/Users/rlittle/Development/cfs-programmer/mac-app/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/rlittle/Development/cfs-programmer/mac-app/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/rlittle/Development/cfs-programmer/mac-app/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Debug",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES",
+          "ONLY_ACTIVE_ARCH" : "YES"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

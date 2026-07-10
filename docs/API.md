@@ -80,12 +80,19 @@ READY
 
 **TAG_DATA Format:**
 ```
-TAG_DATA:<material>|<length>|#<color>|S/N:<serial>
+TAG_DATA:<material>|<length>|#<color>|S/N:<serial>|ID:<filmID>|VENDOR:<vendorCode>
 ```
+
+- `<material>` — coarse type when known (`PLA`, `PETG`, …), otherwise the raw 6-char film ID
+- `<filmID>` — 6-char RFID film ID (`"1"` + K2 `material_database` base id, e.g. Hyper PLA `01001` → `101001`)
+- `<vendorCode>` — 4-char RFID vendor ID from the tag (e.g. `0276` = Creality, `0000` = Generic)
+
+The Mac app maps `ID:` and `VENDOR:` against the material/brand catalog to show product name and brand.
 
 Example:
 ```
-TAG_DATA:PLA|330m|#9CFF4F|S/N:736314
+TAG_DATA:PLA|330m|#9CFF4F|S/N:736314|ID:101001|VENDOR:0276
+TAG_DATA:106002|330m|#FFFFFF|S/N:123456|ID:106002|VENDOR:0276
 ```
 
 **Timeout:**

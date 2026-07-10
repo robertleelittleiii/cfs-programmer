@@ -43,20 +43,264 @@ class DatabaseManager: ObservableObject {
         // Initialize database first
         if let loaded = Self.loadDatabase(from: fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("CFS-Programmer").appendingPathComponent("materials.json")) {
             self.database = loaded
-            print("âœ… Database loaded successfully")
+            print("✅ Database loaded successfully")
         } else {
             self.database = MaterialDatabase()
-            print("ðŸ†• Created new database")
+            print("🆕 Created new database")
         }
         
         // Create directories after database is initialized
         try? fileManager.createDirectory(at: documentsURL, withIntermediateDirectories: true)
         try? fileManager.createDirectory(at: backupsDirectory, withIntermediateDirectories: true)
         
-        // Save if new database
-        if database.materials.isEmpty {
+        // Ensure K2 stock brands + materials are present (idempotent upsert).
+        // Always run — older installs only had Creality + a couple of test materials.
+        let didSeed = seedK2CatalogIfNeeded()
+        if didSeed {
             saveDatabase()
         }
+        // Publish so SwiftUI pickers refresh even if mutation was nested
+        objectWillChange.send()
+        print("📚 Catalog ready: \(database.brands.count) brands, \(database.materials.count) materials")
+    }
+
+    // MARK: - K2 Catalog Seeding
+
+    /// Upsert official brands and materials from the K2 printer catalog.
+    /// - Returns: `true` if the in-memory database was modified.
+    @discardableResult
+    func seedK2CatalogIfNeeded() -> Bool {
+        var changed = false
+
+        // Brands
+        for stock in K2MaterialCatalog.brands {
+            if let index = database.brands.firstIndex(where: { $0.id == stock.id || $0.name.caseInsensitiveCompare(stock.name) == .orderedSame }) {
+                var existing = database.brands[index]
+                // Normalize official brands onto their stock IDs / names
+                if existing.id != stock.id || existing.name != stock.name || existing.isOfficial != stock.isOfficial {
+                    existing.id = stock.id
+                    existing.name = stock.name
+                    existing.isCustom = !stock.isOfficial
+                    existing.isOfficial = stock.isOfficial
+                    database.brands[index] = existing
+                    changed = true
+                }
+            } else {
+                database.brands.append(
+                    Brand(
+                        id: stock.id,
+                        name: stock.name,
+                        isCustom: !stock.isOfficial,
+                        isOfficial: stock.isOfficial
+                    )
+                )
+                changed = true
+            }
+        }
+
+        // Density standards for catalog types
+        for material in K2MaterialCatalog.materials {
+            if database.densityStandards[material.materialType] == nil {
+                database.densityStandards[material.materialType] = material.density
+                changed = true
+            }
+        }
+
+        // Materials — keyed by K2 base.id so RFID film IDs stay correct
+        for stock in K2MaterialCatalog.materials {
+            guard let brandId = K2MaterialCatalog.brandId(forName: stock.brandName) else { continue }
+
+            if let index = database.materials.firstIndex(where: { $0.id == stock.id }) {
+                var existing = database.materials[index]
+                // Keep user notes/favorites; refresh stock identity + physical defaults
+                let needsUpdate =
+                    existing.name != stock.name ||
+                    existing.brandId != brandId ||
+                    existing.brandName != stock.brandName ||
+                    existing.materialType != stock.materialType ||
+                    abs(existing.density - stock.density) > 0.0001 ||
+                    abs(existing.diameter - stock.diameter) > 0.0001 ||
+                    existing.isCustom != false
+
+                if needsUpdate {
+                    existing.name = stock.name
+                    existing.brandId = brandId
+                    existing.brandName = stock.brandName
+                    existing.materialType = stock.materialType
+                    existing.density = stock.density
+                    existing.diameter = stock.diameter
+                    existing.isCustom = false
+                    existing.baseId = stock.id
+                    existing.templateSource = stock.name
+                    existing.inherits = stock.name
+                    existing.temperatures.nozzle.min = stock.minTemp
+                    existing.temperatures.nozzle.max = stock.maxTemp
+                    existing.temperatures.nozzle.defaultTemp = stock.defaultTemp
+                    existing.weightOptions = calculateWeightOptions(density: stock.density, diameter: stock.diameter)
+                    if existing.colors.isEmpty {
+                        existing.colors = [
+                            MaterialColor(hex: stock.primaryColorHex, name: "Default", isPrimary: true)
+                        ]
+                    }
+                    existing.modifiedDate = Date()
+                    database.materials[index] = existing
+                    changed = true
+                }
+            } else {
+                var material = FilamentMaterial(
+                    id: stock.id,
+                    brandId: brandId,
+                    brandName: stock.brandName,
+                    baseId: stock.id,
+                    inherits: stock.name,
+                    templateSource: stock.name,
+                    name: stock.name,
+                    materialType: stock.materialType,
+                    density: stock.density,
+                    weightOptions: calculateWeightOptions(density: stock.density, diameter: stock.diameter)
+                )
+                material.isCustom = false
+                material.diameter = stock.diameter
+                material.densitySource = .standard
+                material.temperatures.nozzle.min = stock.minTemp
+                material.temperatures.nozzle.max = stock.maxTemp
+                material.temperatures.nozzle.defaultTemp = stock.defaultTemp
+                material.colors = [
+                    MaterialColor(hex: stock.primaryColorHex, name: "Default", isPrimary: true)
+                ]
+                database.materials.append(material)
+                changed = true
+            }
+        }
+
+        // Keep brandName on materials in sync if brand list changed
+        for i in database.materials.indices {
+            if let brand = getBrand(id: database.materials[i].brandId),
+               database.materials[i].brandName != brand.name {
+                database.materials[i].brandName = brand.name
+                changed = true
+            }
+        }
+
+        if changed {
+            print("📦 Seeded/updated K2 catalog: \(K2MaterialCatalog.brands.count) brands, \(K2MaterialCatalog.materials.count) stock materials")
+        }
+        return changed
+    }
+
+    /// Materials sorted for UI pickers (brand, then name).
+    func materialsForPicker() -> [FilamentMaterial] {
+        database.materials.sorted {
+            if $0.brandName.localizedCaseInsensitiveCompare($1.brandName) != .orderedSame {
+                return $0.brandName.localizedCaseInsensitiveCompare($1.brandName) == .orderedAscending
+            }
+            return $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending
+        }
+    }
+
+    /// Brands sorted for UI pickers.
+    func brandsForPicker() -> [Brand] {
+        database.brands.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+    }
+
+    /// Resolve a material from a 6-char RFID film ID (e.g. `101001` → Hyper PLA `01001`).
+    /// K2 encodes film IDs as `"1" + material_database base.id`.
+    func material(forFilmID filmID: String) -> FilamentMaterial? {
+        let id = filmID.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        guard !id.isEmpty else { return nil }
+
+        // Exact match on computed film ID for every catalog entry
+        if let match = database.materials.first(where: { CFSFilmID.filmID(for: $0).uppercased() == id }) {
+            return match
+        }
+
+        // Strip leading "1" from 6-char K2 film IDs → 5-char base.id
+        if id.count == 6, id.hasPrefix("1") {
+            let baseId = String(id.dropFirst())
+            if let match = database.materials.first(where: {
+                $0.id.uppercased() == baseId || $0.baseId.uppercased() == baseId
+            }) {
+                return match
+            }
+        }
+
+        // Direct id / baseId match (in case firmware sends base id)
+        if let match = database.materials.first(where: {
+            $0.id.uppercased() == id || $0.baseId.uppercased() == id
+        }) {
+            return match
+        }
+
+        return nil
+    }
+
+    /// Resolve brand from 4-char RFID vendor code (e.g. `0276` → Creality).
+    func brand(forVendorCode code: String) -> Brand? {
+        let id = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        guard !id.isEmpty else { return nil }
+        if let match = database.brands.first(where: { $0.id.uppercased() == id }) {
+            return match
+        }
+        // Known built-in codes if brand list is incomplete
+        switch id {
+        case "0276":
+            return database.brands.first(where: { $0.name.caseInsensitiveCompare("Creality") == .orderedSame })
+        case "0000":
+            return database.brands.first(where: { $0.name.caseInsensitiveCompare("Generic") == .orderedSame })
+        default:
+            return nil
+        }
+    }
+
+    /// Friendly vendor label from code + optional material match.
+    func displayVendor(code: String?, material: FilamentMaterial?) -> String {
+        if let material, !material.brandName.isEmpty {
+            return material.brandName
+        }
+        if let code, let brand = brand(forVendorCode: code) {
+            return brand.name
+        }
+        if let code, !code.isEmpty {
+            switch code.uppercased() {
+            case "0276": return "Creality"
+            case "0000": return "Generic"
+            default: return "Vendor \(code.uppercased())"
+            }
+        }
+        return "Unknown vendor"
+    }
+
+    /// Resolve catalog material from read payload (film ID preferred, then coarse name/type).
+    func resolveMaterial(rawMaterial: String, filmID: String?) -> FilamentMaterial? {
+        if let filmID, let match = material(forFilmID: filmID) {
+            return match
+        }
+        if let match = material(forFilmID: rawMaterial) {
+            return match
+        }
+        let key = rawMaterial.trimmingCharacters(in: .whitespacesAndNewlines)
+        if let match = database.materials.first(where: {
+            $0.name.caseInsensitiveCompare(key) == .orderedSame
+        }) {
+            return match
+        }
+        if let match = database.materials.first(where: {
+            $0.materialType.caseInsensitiveCompare(key) == .orderedSame && !$0.isCustom
+        }) {
+            return match
+        }
+        return nil
+    }
+
+    /// Human-readable label for a read tag (brand · name), falling back to the raw material string.
+    func displayName(forReadMaterial material: String, filmID: String?) -> String {
+        if let match = resolveMaterial(rawMaterial: material, filmID: filmID) {
+            return "\(match.brandName) · \(match.name)"
+        }
+        if material.uppercased() == "UNKNOWN" {
+            return "Unknown material"
+        }
+        return material
     }
 
     

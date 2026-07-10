@@ -1,0 +1,32 @@
+{
+  "source": "/Users/rlittle/Development/cfs-programmer/mac-app/CFS Programmer/CFS Programmer/CFS_ProgrammerApp.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "Device",
+        "location": {
+          "startingColumn": 25,
+          "startingLine": 28
+        }
+      },
+      {
+        "comment": "",
+        "key": "Scan for Device",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 29
+        }
+      },
+      {
+        "comment": "",
+        "key": "Disconnect",
+        "location": {
+          "startingColumn": 24,
+          "startingLine": 34
+        }
+      }
+    ]
+  },
+  "version": 1
+}

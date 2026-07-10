@@ -1,0 +1,9 @@
+{
+  "additionalFiles": "",
+  "compiler.optimization_flags": "-Os",
+  "customBuildProperties": "",
+  "fqbn": "esp32:esp32:esp32:PartitionScheme=huge_app,FlashSize=4M",
+  "hardwareFolders": "/Users/rlittle/Library/Arduino15/packages/esp32/hardware/esp32/3.3.8,/Users/rlittle/Library/Arduino15/packages/esp32/hardware/esp32/3.3.8",
+  "otherLibrariesFolders": "/Users/rlittle/Development/cfs-programmer/firmware/libraries,/Users/rlittle/Documents/Arduino/libraries",
+  "sketchLocation": "/Users/rlittle/Development/cfs-programmer/firmware/CFS_Handheld_v1.2_OTA"
+}

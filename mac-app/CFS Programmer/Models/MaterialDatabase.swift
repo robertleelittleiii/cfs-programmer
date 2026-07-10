@@ -49,14 +49,16 @@ class MaterialDatabase: Codable, ObservableObject {
     
     // MARK: - Initialization
     init() {
-        // Initialize with default Creality brand
-        let crealityBrand = Brand(
-            id: "0276",
-            name: "Creality",
-            isCustom: false,
-            isOfficial: true
-        )
-        brands.append(crealityBrand)
+        // Seed official K2 brands (Creality + Generic). Full material list is
+        // applied by DatabaseManager.seedK2CatalogIfNeeded().
+        brands = K2MaterialCatalog.brands.map { stock in
+            Brand(
+                id: stock.id,
+                name: stock.name,
+                isCustom: !stock.isOfficial,
+                isOfficial: stock.isOfficial
+            )
+        }
     }
     
     // MARK: - Codable
