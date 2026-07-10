@@ -38,7 +38,7 @@ firmware/build-*/
 *.elf
 *.map
 *.bin
-!firmware/CFS_Handheld_v1.2_OTA/*.bin
+!firmware/releases/*.bin
 
 # PlatformIO (if used)
 .pio/
