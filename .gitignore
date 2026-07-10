@@ -1,6 +1,58 @@
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
 
-# Build artifacts
-firmware/build/
-firmware/build-esp32/
+# Xcode
 mac-app/build/
+mac-app/DerivedData/
+mac-app/*.xcodeproj/project.xcworkspace/xcuserdata/
+mac-app/*.xcodeproj/xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.moved-aside
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
+Timeline.xctimeline
+PlaygroundAlwaysShown
+*.gcno
+*.gcda
+
+# Swift Package Manager
+mac-app/.build/
+mac-app/Packages/
+mac-app/Package.resolved
+
+# CocoaPods (if used)
+mac-app/Pods/
+
+# Arduino / ESP32 firmware builds
+firmware/build/
+firmware/build-*/
+*.elf
+*.map
+*.bin
+!firmware/CFS_Handheld_v1.2_OTA/*.bin
+
+# PlatformIO (if used)
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs and temp files
+*.log
+tmp/
+temp/
