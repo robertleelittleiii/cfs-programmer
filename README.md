@@ -2,9 +2,9 @@
 
 A complete system for reading and writing Creality CFS (Creality Filament System) NFC tags used in K2 Plus/Pro 3D printers.
 
-![Version](https://img.shields.io/badge/version-1.2.0-blue)
+![Version](https://img.shields.io/badge/firmware-1.3.10-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Platform](https://img.shields.io/badge/platform-ESP32--S3-orange)
+![Platform](https://img.shields.io/badge/platform-ESP32%20%7C%20ESP32--S3-orange)
 
 ## Overview
 
@@ -33,6 +33,8 @@ This project provides both hardware and software to read, write, and clone Creal
 
 ### Wiring
 
+The diagram below is for ESP32-S3. Classic ESP32 uses SDA/SCL 21/22 and LED GPIO 4; see the [board profiles](firmware/README.md#pin-configuration).
+
 ```
 PN532 NFC Reader:
   SDA â†’ ESP32 GPIO 8
@@ -54,7 +56,7 @@ WS2812B LED:
 
 ## Software Components
 
-### 1. Firmware (ESP32-S3)
+### 1. Firmware (ESP32 / ESP32-S3)
 
 Located in `firmware/`
 
@@ -62,9 +64,9 @@ Located in `firmware/`
 - Handles NFC read/write operations
 - BLE communication with Mac app
 - OTA firmware updates via WiFi
-- Version: 1.2.0
+- Version: **1.3.10** (`FIRMWARE_VERSION` in sketch)
 
-[Firmware Documentation â†’](firmware/README.md)
+[Firmware Documentation →](firmware/README.md)
 
 ### 2. Mac App
 
@@ -75,7 +77,7 @@ Located in `mac-app/`
 - Material database management
 - WiFi configuration
 - OTA update manager
-- Version: 1.2.0
+- Version: **1.3.0** (Settings → About)
 - Built-in K2 catalog: **47 profiles across 20 filament types**, including seven profiles synchronized from the printer on 2026-10-18.
 
 [Mac app catalog changes and production update guide](docs/MAC_APP_UPDATES.md)

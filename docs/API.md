@@ -2,7 +2,7 @@
 
 ## BLE Protocol Specification
 
-Version 1.2.0
+Version 1.3.0
 
 ## Overview
 
@@ -277,7 +277,7 @@ OTA_UPDATE:https://github.com/user/repo/releases/download/fw-v1.3.0/firmware.bin
 
 | Response | Format | Example |
 |----------|--------|---------|
-| `VERSION` | `VERSION:<version>` | `VERSION:1.2.0` |
+| `VERSION` | `VERSION:<version>` | `VERSION:1.3.10` |
 | `UID` | `UID:<hex>` | `UID:60ea1221` |
 | `TAG_DATA` | `TAG_DATA:<mat>\|<len>\|#<col>\|S/N:<ser>` | `TAG_DATA:PLA\|330m\|#FFFFFF\|S/N:123456` |
 | `BLANK_TAG` | `BLANK_TAG` | Tag is empty/blank |
@@ -473,7 +473,7 @@ For long messages (like WRITE commands), BLE will automatically fragment.
 [Device advertises as "CFS-Programmer"]
 [Mac connects]
 [Device sends VERSION automatically]
-Device â†’ Mac:  VERSION:1.2.0
+Device → Mac:  VERSION:1.3.10
 ```
 
 ### 2. During Use
@@ -496,7 +496,7 @@ Device â†’ Mac:  VERSION:1.2.0
 ```
 [Mac reconnects automatically]
 [Device sends VERSION again]
-Device â†’ Mac:  VERSION:1.2.0
+Device → Mac:  VERSION:1.3.0
 ```
 
 ---
@@ -569,7 +569,7 @@ Connect to service UUID and manually send commands to RX characteristic.
 
 ## Support
 
-- **Protocol Version:** 1.2.0
-- **Compatible Firmware:** v1.2.0+
-- **Compatible Mac App:** v1.2.0+
+- **Protocol Version:** 1.3.0
+- **Compatible Firmware:** v1.3.0+ (v1.2.0+ still works; older builds omit `ID:` / `VENDOR:`)
+- **Compatible Mac App:** v1.3.0+
 - **BLE Version:** 4.0+

@@ -35,6 +35,7 @@ mac-app/Pods/
 # Arduino / ESP32 firmware builds
 firmware/build/
 firmware/build-*/
+firmware/CFS_Handheld_v1.2_OTA/build/
 *.elf
 *.map
 *.bin

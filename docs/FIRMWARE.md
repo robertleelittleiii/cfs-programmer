@@ -1,30 +1,26 @@
 # CFS Programmer Firmware Documentation
-Version 1.2.0
+Version **1.3.10**
 
 ## Overview
 
-The CFS Programmer is an ESP32-S3 based NFC reader/writer designed to read and write Creality CFS (Creality Filament System) tags used in K2 Plus and similar 3D printers.
+The CFS Programmer is an ESP32 / ESP32-S3 based NFC reader/writer designed to read and write Creality CFS (Creality Filament System) tags used in K2 Plus and similar 3D printers.
 
 ## Hardware Requirements
 
-- **MCU:** ESP32-S3 (any variant with WiFi + BLE)
+- **MCU:** ESP32 or ESP32-S3 (WiFi + BLE)
 - **NFC Reader:** PN532 (I2C mode)
 - **Display:** SH1106 128x64 OLED (I2C)
 - **LED:** WS2812B RGB LED
-- **Connections:**
-  - I2C SDA: GPIO 8
-  - I2C SCL: GPIO 9
-  - WS2812: GPIO 48
-  - PN532 IRQ: Not used (-1)
+- **Connections (profile-dependent):**
+
+| Profile | I2C SDA/SCL | WS2812 | Notes |
+|---------|-------------|--------|-------|
+| ESP32-S3 | 8 / 9 | 48 | Default when compiling for `esp32s3` |
+| ESP32 classic | 21 / 22 | 4 | Default for `esp32`; do **not** use 8/9 (flash pins) |
 
 ## Pin Configuration
 
-```cpp
-#define I2C_SDA         8
-#define I2C_SCL         9
-#define WS2812_PIN     48
-#define PN532_IRQ      -1
-```
+Pins are selected by board profile in `CFS_Handheld_v1.2_OTA.ino` (see `CFS_BOARD_PROFILE_*`). Do not hardcode S3 pins on a classic ESP32-D0WD.
 
 ## Library Requirements
 
@@ -79,7 +75,7 @@ Versions follow Semantic Versioning: `MAJOR.MINOR.PATCH`
 Edit this line in the firmware:
 
 ```cpp
-#define FIRMWARE_VERSION "1.2.0"
+#define FIRMWARE_VERSION "1.3.10"
 ```
 
 The build date/time are auto-generated:
@@ -113,7 +109,7 @@ The build date/time are auto-generated:
 
 | Response | Format | Description |
 |----------|--------|-------------|
-| Version | `VERSION:1.2.0` | Firmware version (sent on connect) |
+| Version | `VERSION:1.3.10` | Firmware version (sent on connect) |
 | Ready | `READY` | Ready for tag operation |
 | UID | `UID:60ea1221` | Tag UID detected (hex, lowercase) |
 | Tag Data | `TAG_DATA:PLA\|165m\|#FFFFFF\|S/N:123456` | Successfully read tag |
@@ -192,7 +188,7 @@ The build date/time are auto-generated:
 
 3. After reboot, new version sends:
    ```
-   VERSION:1.3.0
+   VERSION:1.3.10
    ```
 
 ## State Machine

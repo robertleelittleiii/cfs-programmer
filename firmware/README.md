@@ -1,6 +1,6 @@
 # CFS Programmer Firmware
 
-ESP32-S3 + PN532 NFC Reader Firmware
+ESP32 / ESP32-S3 + PN532 NFC Reader Firmware
 
 ## Version
 
@@ -27,19 +27,21 @@ Version 1.3.10 labels `101002`/`101003`/`101004` correctly as PLA variants and r
 
 | Component | Model | Interface | Notes |
 |-----------|-------|-----------|-------|
-| **Microcontroller** | ESP32-S3 | - | Any variant with WiFi + BLE |
+| **Microcontroller** | ESP32 or ESP32-S3 | - | WiFi + BLE required |
 | **NFC Reader** | PN532 | I2C | Must use I2C mode (not SPI) |
 | **Display** | SH1106 | I2C | 128x64 OLED, shares I2C bus |
 | **LED** | WS2812B | GPIO | Single addressable RGB LED |
 
 ### Pin Configuration
 
-```cpp
-#define I2C_SDA         8    // I2C Data (PN532 + OLED)
-#define I2C_SCL         9    // I2C Clock
-#define WS2812_PIN     48    // RGB LED data
-#define PN532_IRQ      -1    // Not used
-```
+Pins follow the **board profile** selected at compile time (see sketch header):
+
+| Profile | MCU | I2C SDA/SCL | WS2812 |
+|---------|-----|-------------|--------|
+| ESP32-S3 (default for `esp32s3` FQBN) | ESP32-S3 | 8 / 9 | 48 |
+| ESP32 (default for classic `esp32` FQBN) | ESP32-D0WD etc. | 21 / 22 | 4 |
+
+Classic ESP32 must **not** use GPIO 6–11 for I2C (SPI flash). Use the classic profile (21/22) on D0WD boards.
 
 ## Software Requirements
 
@@ -146,15 +148,17 @@ arduino-cli upload -p /dev/cu.usbserial-* --fqbn esp32:esp32:esp32s3 CFS_Handhel
 
 ## Configuration
 
-### GitHub Repository URL
-
-Edit line 32 in `CFS_Handheld_v1.2_OTA.ino`:
+### Firmware version
 
 ```cpp
-#define GITHUB_API_URL "https://api.github.com/repos/YOUR_USERNAME/cfs-programmer/releases/latest"
+#define FIRMWARE_VERSION "1.3.10"
 ```
 
-Replace `YOUR_USERNAME` with your actual GitHub username.
+### GitHub Repository URL (OTA checks)
+
+```cpp
+#define GITHUB_API_URL "https://api.github.com/repos/MakaiView/cfs-programmer/releases/latest"
+```
 
 ### WiFi Credentials (Runtime)
 
@@ -174,7 +178,7 @@ WiFi is configured at runtime via the Mac app:
 2. Serial output shows:
    ```
    â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
-   â•‘   CFS Programmer v1.2.0               â•‘
+   ║   CFS Programmer v1.3.10              ║
    â•‘   ESP32-S3 + PN532                    â•‘
    â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
@@ -187,14 +191,14 @@ WiFi is configured at runtime via the Mac app:
    ðŸŽ‰ READY!
    ```
 
-3. OLED shows: "Ready! v1.2.0 Waiting..."
+3. OLED shows: "Ready! v1.3.10 Waiting..."
 4. BLE advertising starts (name: "CFS-Programmer")
 
 ### Connecting Mac App
 
 1. Mac app auto-scans for device
 2. When found, connects automatically
-3. Device sends: `VERSION:1.2.0`
+3. Device sends: `VERSION:1.3.10`
 4. Mac app displays firmware version
 5. Ready for tag operations
 
@@ -225,7 +229,7 @@ WiFi is configured at runtime via the Mac app:
    - Connects to WiFi
    - Fetches GitHub API
    - Compares versions
-4. If update exists: `UPDATE_AVAILABLE:1.3.0,<url>`
+4. If update exists: `UPDATE_AVAILABLE:1.4.0,<url>`
 5. Mac app sends: `OTA_UPDATE:<url>`
 6. Device downloads and flashes firmware
 7. Reboots with new version
@@ -338,8 +342,8 @@ Example output when reading a tag:
 2. Update `FIRMWARE_VERSION` constant
 3. Test on hardware
 4. Commit to git
-5. Tag release: `git tag fw-v1.3.0`
-6. Push: `git push origin fw-v1.3.0`
+5. Tag release: `git tag fw-v1.3.10` (match `FIRMWARE_VERSION`)
+6. Push: `git push origin fw-v1.3.10`
 7. GitHub Actions builds and releases
 
 ### Adding Features
@@ -347,10 +351,7 @@ Example output when reading a tag:
 Common modifications:
 
 **Add new material type:**
-```cpp
-// In readTag() function
-else if (filmID == "101006") material = "PC";
-```
+Mirror the printer's five-character base ID and actual type in `CFSMaterialIDs.h` and the Mac app's `K2MaterialCatalog.swift`, then extend and run `python3 mac-app/tests/run_tag_tests.py`. Do not invent sequential film IDs: `101002`, for example, is a PLA variant rather than PETG.
 
 **Change timeout:**
 ```cpp
@@ -372,25 +373,37 @@ void blinkPattern() {
 
 ## Version History
 
+### v1.3.10 (2026-10-18)
+- Correct K2 catalog-backed material labels, including Generic PETG `100003`.
+- Explicit post-write authentication failure handling and bounded plaintext logging.
+- Deployed on classic ESP32; a fresh idle K2 slot-B scan recognized PETG serial `280201`.
+
+### v1.3.0 (2026-07-10)
+- ✅ ESP32 + ESP32-S3 board profiles (safe pin maps per MCU)
+- ✅ TAG_DATA includes film ID (`ID:`) and vendor code (`VENDOR:`) for Mac catalog lookup
+- ✅ Dual-tag write improvements and write verification
+- ✅ Flash helper script (`firmware/flash.sh`)
+- ✅ OTA check URL points at MakaiView/cfs-programmer
+
 ### v1.2.0 (2025-12-21)
-- âœ… Added OTA update support via WiFi
-- âœ… Added firmware versioning system
-- âœ… Added WiFi configuration over BLE
-- âœ… Added GitHub releases integration
-- âœ… Added blank tag detection
-- âœ… Improved error handling
+- ✅ Added OTA update support via WiFi
+- ✅ Added firmware versioning system
+- ✅ Added WiFi configuration over BLE
+- ✅ Added GitHub releases integration
+- ✅ Added blank tag detection
+- ✅ Improved error handling
 
 ### v1.1.0 (2025-12-20)
-- âœ… Added authentication retry logic
-- âœ… Added blank tag detection
-- âœ… Improved serial output formatting
-- âœ… Fixed timing issues with PN532
+- ✅ Added authentication retry logic
+- ✅ Added blank tag detection
+- ✅ Improved serial output formatting
+- ✅ Fixed timing issues with PN532
 
 ### v1.0.0 (2025-12-19)
-- âœ… Initial release
-- âœ… Read CFS tags
-- âœ… Basic BLE interface
-- âœ… OLED display support
+- ✅ Initial release
+- ✅ Read CFS tags
+- ✅ Basic BLE interface
+- ✅ OLED display support
 
 ## License
 
@@ -400,7 +413,7 @@ MIT License - See LICENSE file in repository
 
 - **Documentation:** See `docs/` folder
 - **Issues:** GitHub Issues
-- **Hardware:** Works with ESP32-S3 + PN532 (I2C)
+- **Hardware:** ESP32 or ESP32-S3 + PN532 (I2C)
 - **Tags:** MIFARE Classic 1K only
 
 ## Credits

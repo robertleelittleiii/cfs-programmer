@@ -1804,8 +1804,9 @@ void loop() {
 void showMessage(String line1, String line2, String line3) {
   display.clearBuffer();
   display.setFont(u8g2_font_6x10_tr);
-  display.drawStr(0, 12, line1.c_str());
-  display.drawStr(0, 30, line2.c_str());
-  display.drawStr(0, 48, line3.c_str());
+  // Leave the top row blank; y is baseline, panel is 64px tall
+  display.drawStr(0, 30, line1.c_str());
+  display.drawStr(0, 48, line2.c_str());
+  display.drawStr(0, 62, line3.c_str());
   display.sendBuffer();
 }
