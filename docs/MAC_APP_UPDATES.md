@@ -175,6 +175,22 @@ It compiles the Swift encoder and the actual firmware material-ID lookup, checks
 - The K2 was actively printing, so no RFID rescan or filament movement was requested. Read-only inspection found slot B configured as Generic PETG (`filamentId: 000003`, `materialType: PETG`), but its stored raw RFID payload was `unknown`. No scan matching the rewritten pair's serial `280201` was found in the recent log windows checked. This confirms PETG slot configuration, **not** acceptance of the rewritten tags. Complete the physical rescan below when the printer is idle.
 - The host regression suite and full app source typecheck passed during development. A subsequent full app bundle build was cancelled; no updated production Mac app was installed.
 
+#### Fresh K2 RFID acceptance verified
+
+On 2026-10-18 at 03:02 UTC, the previous PETG print was reported completed, the printer was in `standby` / `Ready`, the SD job was inactive, the nozzle target was zero, and CFS unit T1 reported no filament loaded/detected in the toolhead path.
+
+After checking the installed `BOX_INFO_REFRESH` macro and CFS slot addressing, issued one targeted `BOX_INFO_REFRESH ADDR=1 NUM=1` through Moonraker for T1B. The macro performs the CFS pre-loading/read sequence, fetches RFID data and remaining length, and returned `{"result": "ok"}`. No print, heating, homing, or toolhead unload command was issued.
+
+The post-scan K2 `box.T1` status reported:
+
+- Film ID: `100003` — Generic PETG, matching the printer catalog.
+- Spool serial: `280201` — matches the programmer's latest two-tag write.
+- Color: `066686D` — RGB `#66686D`.
+- Remaining filament: `100`.
+- Decoded RFID record: `ABA17000001100003066686D0330280201000000`.
+
+This verifies that the K2 recognizes the rewritten PETG spool after a fresh reader refresh, superseding the earlier `unknown`/manual-slot-only evidence. It does not independently prove that each of the two physical tags was read separately; both tag writes were acknowledged by the programmer.
+
 For physical verification after deployment:
 
 1. Read each of the two rewritten tags independently. For Generic PETG, both must report `ID:100003`, the same spool serial/color, and a PETG material label with firmware 1.3.10. Old firmware can report a raw ID for this profile; the ID is authoritative.
