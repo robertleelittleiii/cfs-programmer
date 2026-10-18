@@ -957,15 +957,18 @@ struct WriteTagView: View {
 
     var canWrite: Bool {
         if !bluetooth.isConnected { return false }
-        if selectedMaterial == nil { return false }
-        if useCustomSerial && customSerial.count != 6 { return false }
+        guard let material = selectedMaterial, CFSFilmID.filmID(for: material) != nil else { return false }
+        if useCustomSerial && (customSerial.utf8.count != 6 || !customSerial.utf8.allSatisfy({ (48...57).contains($0) })) { return false }
         return true
     }
 
     var writeDisabledReason: String {
         if !bluetooth.isConnected { return "Connect to the CFS Programmer first" }
         if selectedMaterial == nil { return "Select a material type above to enable writing" }
-        if useCustomSerial && customSerial.count != 6 { return "Enter a 6-digit serial number" }
+        if let material = selectedMaterial, CFSFilmID.filmID(for: material) == nil {
+            return "No K2 RFID material ID for \(material.materialType). Select a supported printer profile."
+        }
+        if useCustomSerial && (customSerial.utf8.count != 6 || !customSerial.utf8.allSatisfy({ (48...57).contains($0) })) { return "Enter a 6-digit serial number" }
         return ""
     }
 
@@ -1021,12 +1024,18 @@ struct WriteTagView: View {
             generatedSerial = generateUniqueSerial()
         }
 
-        cfsDataToWrite = generateCFSData(
-            material: material,
-            weight: selectedWeight,
-            color: selectedColor,
-            serial: generatedSerial
-        )
+        do {
+            cfsDataToWrite = try generateCFSData(
+                material: material,
+                weight: selectedWeight,
+                color: selectedColor,
+                serial: generatedSerial
+            )
+        } catch {
+            writeError = error.localizedDescription
+            bluetooth.log("ERR", writeError)
+            return
+        }
 
         guard cfsDataToWrite.count == 48 else {
             writeError = "Invalid CFS data length (\(cfsDataToWrite.count)/48). Check color format."
@@ -1096,19 +1105,15 @@ struct WriteTagView: View {
         return String(format: "%06d", Int.random(in: 1...999999))
     }
 
-    func generateCFSData(material: FilamentMaterial, weight: FilamentWeight, color: Color, serial: String) -> String {
-        let dateCode = formatDateCode()
-        // Prefer the material's brand RFID code (Creality=0276, Generic=0000)
-        let vendor = CFSFilmID.vendorCode(for: material)
-        let unknown = "01"
-        // K2 film ID = "1" + material_database base.id (e.g. 01001 → 101001)
-        let filmID = CFSFilmID.filmID(for: material)
+    func generateCFSData(material: FilamentMaterial, weight: FilamentWeight, color: Color, serial: String) throws -> String {
         let rgb = (color.toHex() ?? "#FFFFFF").replacingOccurrences(of: "#", with: "")
-        let colorHex = "0" + rgb
-        let length = lengthHexOverride ?? weight.hexLength
-        let reserve = "00000000000000"
-
-        return "\(dateCode)\(vendor)\(unknown)\(filmID)\(colorHex)\(length)\(serial)\(reserve)"
+        return try CFSTagEncoder.encode(
+            material: material,
+            dateCode: formatDateCode(),
+            rgbHex: rgb,
+            lengthCode: lengthHexOverride ?? weight.hexLength,
+            serial: serial
+        )
     }
 
     func formatDateCode() -> String {
@@ -1956,39 +1961,6 @@ struct InfoRow: View {
 // Note: FilamentMaterial is now defined in Material.swift
 // Keeping FilamentWeight enum here for convenience
 
-enum CFSFilmID {
-    /// Legacy type → generic Creality film ID map (fallback for custom materials).
-    static func from(materialType: String) -> String {
-        switch materialType.uppercased() {
-        case "PLA": return "101001"
-        case "PETG": return "101002"
-        case "ABS": return "101003"
-        case "TPU": return "101004"
-        case "NYLON", "PA": return "101005"
-        case "ASA": return "101007"
-        default: return "101001"
-        }
-    }
-
-    /// RFID film ID: K2 uses `"1" + material_database base.id` (5 hex chars → 6).
-    /// Firmware rejects non-hex film IDs (`cfsFilmIdIsValid`), so only pure hex is used.
-    static func filmID(for material: FilamentMaterial) -> String {
-        let candidate = material.baseId.count == 5 ? material.baseId : material.id
-        if candidate.count == 5, candidate.uppercased().allSatisfy({ $0.isHexDigit }) {
-            return "1" + candidate.uppercased()
-        }
-        // Custom / non-K2 IDs fall back to type-based generic film IDs
-        return from(materialType: material.materialType)
-    }
-
-    /// 4-char RFID vendor code from brand id when valid hex, else Creality.
-    /// Note: Generic brand uses `0000` in the Mac DB — that is valid hex.
-    static func vendorCode(for material: FilamentMaterial) -> String {
-        let id = material.brandId.uppercased()
-        let hexOK = id.count == 4 && id.allSatisfy { $0.isHexDigit }
-        return hexOK ? id : "0276"
-    }
-}
 
 enum FilamentWeight: String, CaseIterable, Identifiable {
     case grams250 = "250g"

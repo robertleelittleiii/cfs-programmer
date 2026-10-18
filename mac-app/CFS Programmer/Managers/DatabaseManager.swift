@@ -210,7 +210,7 @@ class DatabaseManager: ObservableObject {
         guard !id.isEmpty else { return nil }
 
         // Exact match on computed film ID for every catalog entry
-        if let match = database.materials.first(where: { CFSFilmID.filmID(for: $0).uppercased() == id }) {
+        if let match = database.materials.first(where: { CFSFilmID.filmID(for: $0)?.uppercased() == id }) {
             return match
         }
 
@@ -427,7 +427,7 @@ class DatabaseManager: ObservableObject {
             id: materialId,
             brandId: brandId,
             brandName: brand.name,
-            baseId: "GFSA04",
+            baseId: CFSFilmID.from(materialType: materialType).map { String($0.dropFirst()) } ?? "",
             inherits: templateSource,
             templateSource: templateSource,
             name: name,

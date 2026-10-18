@@ -44,7 +44,7 @@ GET_VERSION
 
 **Response:**
 ```
-VERSION:1.2.0
+VERSION:1.3.10
 ```
 
 **Notes:**
@@ -92,8 +92,10 @@ The Mac app maps `ID:` and `VENDOR:` against the material/brand catalog to show 
 Example:
 ```
 TAG_DATA:PLA|330m|#9CFF4F|S/N:736314|ID:101001|VENDOR:0276
-TAG_DATA:106002|330m|#FFFFFF|S/N:123456|ID:106002|VENDOR:0276
+TAG_DATA:PETG|330m|#FFFFFF|S/N:123456|ID:106002|VENDOR:0276
 ```
+
+Firmware 1.3.10 uses the K2 catalog for type labels: `101002`, `101003`, and `101004` report `PLA`, while `100003`, `106001`, and `106002` report `PETG`. Unknown IDs are reported unchanged, not labeled PLA. Always prefer `ID:` over a coarse label from older firmware.
 
 **Timeout:**
 - 30 seconds if no tag is presented

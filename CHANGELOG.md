@@ -18,7 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Preserved the printer's `PETG-GF` classification for Generic PET-GF15. Existing startup seeding imports the additions; no printer or programmer firmware update is required for this catalog change.
 
 ### Fixed
-- (none yet)
+- Corrected Mac app custom-material RFID fallback IDs using the K2 Generic catalog; unknown types no longer silently encode PLA.
+- Corrected firmware material labels: `101002`/`101003`/`101004` are PLA variants, not PETG/ABS/TPU. The new firmware identifies itself as 1.3.10.
+- Prevented cloned custom profiles from retaining a known PLA base ID after changing their type, and rejected malformed tag fields before issuing write commands.
+- Bounded the firmware's post-write plaintext logging to the verified 48 bytes instead of reading past an unterminated buffer.
 
 ## [1.2.0] - 2025-12-21
 

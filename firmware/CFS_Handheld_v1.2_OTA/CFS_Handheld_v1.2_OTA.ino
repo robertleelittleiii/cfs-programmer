@@ -1,6 +1,6 @@
 /*
  * CFS Programmer - ESP32 / ESP32-S3 + PN532
- * Version: 1.3.1
+ * Version: 1.3.10
  *
  * Complete firmware with tag read/write capabilities + OTA
  *
@@ -23,11 +23,12 @@
 #include <Adafruit_NeoPixel.h>
 #include <AESLib.h>
 #include <ArduinoJson.h>
+#include "CFSMaterialIDs.h"
 
 // ═══════════════════════════════════════════════════════════
 // FIRMWARE VERSION
 // ═══════════════════════════════════════════════════════════
-#define FIRMWARE_VERSION "1.3.6"
+#define FIRMWARE_VERSION "1.3.10"
 #define FIRMWARE_BUILD_DATE __DATE__
 #define FIRMWARE_BUILD_TIME __TIME__
 
@@ -1093,14 +1094,10 @@ String readTag() {
     return "ERROR:Decrypt failed - filmID=" + filmID;
   }
 
-  // Coarse type label for older Mac apps / serial log only.
-  // Mac resolves full product name from film ID + vendor against the material catalog.
-  String material = filmID;
-  if (filmID == "101001" || filmID == "E00003") material = "PLA";
-  else if (filmID == "101002") material = "PETG";
-  else if (filmID == "101003") material = "ABS";
-  else if (filmID == "101004") material = "TPU";
-  else if (filmID == "101005") material = "Nylon";
+  // Resolve the actual printer ID: 101002/101003/101004 are PLA variants,
+  // not PETG/ABS/TPU. Preserve unrecognized IDs for the Mac to resolve.
+  const char* materialType = cfsMaterialTypeForFilmID(filmID.c_str());
+  String material = materialType ? String(materialType) : filmID;
 
   int lengthMeters = 0;
   for (int i = 0; i < length.length(); i++) {
@@ -1312,7 +1309,14 @@ void writeTag() {
   } else {
     memcpy(verifyKey, activeKey, 6);
   }
-  authenticateWithRetry(7, verifyKeyNum, verifyKey);
+  if (!authenticateWithRetry(7, verifyKeyNum, verifyKey)) {
+    notifyMac("ERROR:Write verify auth failed");
+    setLED(WS_RED);
+    currentState = STATE_IDLE;
+    writeUiShown = false;
+    flushNotifyQueue();
+    return;
+  }
   uint8_t verify[48];
   bool verifyOk = true;
   for (int block = 4; block <= 6; block++) {
@@ -1338,7 +1342,10 @@ void writeTag() {
     uint8_t decrypted[48];
     cfsDecrypt48(verify, decrypted);
     logHexDump("   Decrypted:    ", decrypted, 48);
-    dumpCFSFields(String((char*)decrypted).substring(0, 48));
+    char verifiedText[49];
+    memcpy(verifiedText, decrypted, 48);
+    verifiedText[48] = '\0';
+    dumpCFSFields(String(verifiedText));
 
     if (!cfsFilmIdIsValid(decrypted) || memcmp(decrypted, cfsBytes, 48) != 0) {
       Serial.println("❌ Verify decrypt failed - tag data invalid");

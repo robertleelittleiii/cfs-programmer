@@ -36,7 +36,8 @@ enum K2MaterialCatalog {
         StockBrand(id: "0000", name: "Generic", isOfficial: false),
     ]
 
-    /// Full material list from the K2 printer (40 materials).
+    /// Full material list from the K2 printer (47 materials; verified 2026-10-18).
+    /// Zero nozzle temperatures mean the printer does not specify a range.
     static let materials: [StockMaterial] = [
         StockMaterial(id: "07001", brandName: "Creality", name: "CR-ABS", materialType: "ABS", density: 1.08, diameter: 1.75, minTemp: 240, maxTemp: 280, defaultTemp: 260, primaryColorHex: "#FFFFFF"),
         StockMaterial(id: "06001", brandName: "Creality", name: "CR-PETG", materialType: "PETG", density: 1.23, diameter: 1.75, minTemp: 220, maxTemp: 270, defaultTemp: 245, primaryColorHex: "#FFFFFF"),
@@ -64,16 +65,24 @@ enum K2MaterialCatalog {
         StockMaterial(id: "06005", brandName: "Creality", name: "Soleyin Basic PETG", materialType: "PETG", density: 1.25, diameter: 1.75, minTemp: 230, maxTemp: 250, defaultTemp: 240, primaryColorHex: "#000000"),
         StockMaterial(id: "01601", brandName: "Creality", name: "Soleyin Ultra PLA", materialType: "PLA", density: 1.25, diameter: 1.75, minTemp: 190, maxTemp: 240, defaultTemp: 215, primaryColorHex: "#000000"),
         StockMaterial(id: "00004", brandName: "Generic", name: "Generic ABS", materialType: "ABS", density: 1.24, diameter: 1.75, minTemp: 240, maxTemp: 280, defaultTemp: 260, primaryColorHex: "#FFFFFF"),
+        StockMaterial(id: "00042", brandName: "Generic", name: "Generic ABS-CF", materialType: "ABS-CF", density: 1.06, diameter: 1.75, minTemp: 240, maxTemp: 270, defaultTemp: 255, primaryColorHex: "#000000"),
+        StockMaterial(id: "00045", brandName: "Generic", name: "Generic ABS-FR", materialType: "ABS-FR", density: 1.05, diameter: 1.75, minTemp: 0, maxTemp: 0, defaultTemp: 0, primaryColorHex: "#000000"),
+        StockMaterial(id: "00041", brandName: "Generic", name: "Generic ABS-GF", materialType: "ABS-GF", density: 1.08, diameter: 1.75, minTemp: 240, maxTemp: 270, defaultTemp: 255, primaryColorHex: "#000000"),
         StockMaterial(id: "00007", brandName: "Generic", name: "Generic ASA", materialType: "ASA", density: 1.24, diameter: 1.75, minTemp: 240, maxTemp: 280, defaultTemp: 260, primaryColorHex: "#FFFFFF"),
         StockMaterial(id: "00010", brandName: "Generic", name: "Generic BVOH", materialType: "BVOH", density: 1.24, diameter: 1.75, minTemp: 200, maxTemp: 220, defaultTemp: 210, primaryColorHex: "#FFFFFF"),
         StockMaterial(id: "00008", brandName: "Generic", name: "Generic PA", materialType: "PA", density: 1.24, diameter: 1.75, minTemp: 240, maxTemp: 260, defaultTemp: 250, primaryColorHex: "#FFFFFF"),
         StockMaterial(id: "00016", brandName: "Generic", name: "Generic PAHT-CF", materialType: "PA-CF", density: 1.24, diameter: 1.75, minTemp: 300, maxTemp: 320, defaultTemp: 310, primaryColorHex: "#FFFFFF"),
+        StockMaterial(id: "00044", brandName: "Generic", name: "Generic PC-CF", materialType: "PC-CF", density: 1.16, diameter: 1.75, minTemp: 0, maxTemp: 0, defaultTemp: 0, primaryColorHex: "#000000"),
         StockMaterial(id: "00020", brandName: "Generic", name: "Generic PET", materialType: "PET", density: 1.24, diameter: 1.75, minTemp: 250, maxTemp: 270, defaultTemp: 260, primaryColorHex: "#FFFFFF"),
+        StockMaterial(id: "00013", brandName: "Generic", name: "Generic PET-CF", materialType: "PET-CF", density: 1.24, diameter: 1.75, minTemp: 280, maxTemp: 320, defaultTemp: 300, primaryColorHex: "#FFFFFF"),
+        // The printer classifies PET-GF15 as PETG-GF; preserve its catalog value.
+        StockMaterial(id: "00043", brandName: "Generic", name: "Generic PET-GF15", materialType: "PETG-GF", density: 1.43, diameter: 1.75, minTemp: 0, maxTemp: 0, defaultTemp: 0, primaryColorHex: "#000000"),
         StockMaterial(id: "00003", brandName: "Generic", name: "Generic PETG", materialType: "PETG", density: 1.24, diameter: 1.75, minTemp: 220, maxTemp: 270, defaultTemp: 245, primaryColorHex: "#FFFFFF"),
         StockMaterial(id: "00014", brandName: "Generic", name: "Generic PETG-CF", materialType: "PETG-CF", density: 1.24, diameter: 1.75, minTemp: 240, maxTemp: 260, defaultTemp: 250, primaryColorHex: "#FFFFFF"),
         StockMaterial(id: "00027", brandName: "Generic", name: "Generic PETG-GF", materialType: "PETG-GF", density: 1.28, diameter: 1.75, minTemp: 240, maxTemp: 280, defaultTemp: 260, primaryColorHex: "#000000"),
         StockMaterial(id: "00001", brandName: "Generic", name: "Generic PLA", materialType: "PLA", density: 1.24, diameter: 1.75, minTemp: 190, maxTemp: 240, defaultTemp: 215, primaryColorHex: "#FFFFFF"),
         StockMaterial(id: "00006", brandName: "Generic", name: "Generic PLA-CF", materialType: "PLA-CF", density: 1.24, diameter: 1.75, minTemp: 190, maxTemp: 240, defaultTemp: 215, primaryColorHex: "#FFFFFF"),
+        StockMaterial(id: "00040", brandName: "Generic", name: "Generic PLA-HT-GF", materialType: "PLA-GF", density: 1.33, diameter: 1.75, minTemp: 0, maxTemp: 0, defaultTemp: 0, primaryColorHex: "#000000"),
         StockMaterial(id: "00002", brandName: "Generic", name: "Generic PLA-Silk", materialType: "PLA", density: 1.24, diameter: 1.75, minTemp: 190, maxTemp: 240, defaultTemp: 215, primaryColorHex: "#FFFFFF"),
         StockMaterial(id: "00019", brandName: "Generic", name: "Generic PP", materialType: "PP", density: 1.24, diameter: 1.75, minTemp: 220, maxTemp: 260, defaultTemp: 240, primaryColorHex: "#FFFFFF"),
         StockMaterial(id: "00011", brandName: "Generic", name: "Generic PVA", materialType: "PVA", density: 1.24, diameter: 1.75, minTemp: 215, maxTemp: 225, defaultTemp: 220, primaryColorHex: "#FFFFFF"),

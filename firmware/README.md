@@ -4,7 +4,11 @@ ESP32-S3 + PN532 NFC Reader Firmware
 
 ## Version
 
-Current: **1.2.0** (2025-12-21)
+Current source: **1.3.10** — corrected K2 material-ID read-back labels.
+
+Sketch folder name `CFS_Handheld_v1.2_OTA` is historical (from the 1.2 OTA release). The source version is defined by `FIRMWARE_VERSION` in the `.ino` file. Check the connected device's reported version separately; changing the source does not flash the device.
+
+Version 1.3.10 labels `101002`/`101003`/`101004` correctly as PLA variants and recognizes real PETG IDs such as `100003` and `106002`. See [tag format](../docs/TAG_FORMAT.md) and [physical verification steps](../docs/MAC_APP_UPDATES.md#rfid-material-id-correction).
 
 ## Features
 

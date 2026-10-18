@@ -100,18 +100,30 @@ Purpose unclear. Observed values:
 
 ### Filament Type ID (6 bytes)
 
-Standard Creality IDs:
+K2 tag IDs are `"1"` followed by the five-character material ID in the printer's `material_database.json`. Examples:
 
 | ID | Material | Description |
 |----|----------|-------------|
-| `101001` | PLA | Standard PLA |
-| `101002` | PETG | PETG |
-| `101003` | ABS | ABS |
-| `101004` | TPU | Flexible TPU |
-| `101005` | Nylon | PA Nylon |
-| `E00003` | PLA | PLA (alternate ID) |
+| `101001` | PLA | Hyper PLA |
+| `101002` | PLA | Hyper L-W PLA |
+| `101003` | PLA | Hyper Luminous |
+| `101004` | PLA | Hyper Stardust |
+| `106001` | PETG | CR-PETG |
+| `106002` | PETG | Hyper PETG |
+| `100003` | PETG | Generic PETG |
+| `103001` | ABS | Hyper ABS |
+| `100004` | ABS | Generic ABS |
+| `116001` | TPU | CR-TPU |
+| `100005` | TPU | Generic TPU |
+| `100008` | PA | Generic PA |
+| `100007` | ASA | Generic ASA |
+| `100020` | PET | Generic PET (not PETG) |
 
 **Note:** The printer uses this ID to set print temperature and speed profiles.
+
+The old PETG=`101002`, ABS=`101003`, and TPU=`101004` mappings were incorrect: those IDs select PLA variants on the K2. A programmer using the same incorrect mapping for both writing and read-back can appear to verify a tag successfully while misidentifying its material. Firmware 1.3.10 resolves labels against the same 47-profile catalog as the Mac app. Unsupported custom material types no longer silently fall back to PLA; explicit custom five-character hexadecimal IDs can still be used for profiles provisioned separately on the printer.
+
+Custom profiles with no printer base ID use a matching Generic catalog profile. Known stock base IDs are checked against the selected type so changing a custom profile from PLA to PETG does not leave its old PLA ID on the tag. Invalid serials, including letters or non-ASCII digits, are rejected before sending write commands.
 
 ### Color Code (7 bytes)
 

@@ -151,6 +151,39 @@ Restoring an older database loses changes made after that backup; do not mix the
 
 ## Re-run catalog regression checks
 
+### RFID material-ID correction
+
+The follow-up writing fix replaces the old type-to-ID fallback table with real Generic catalog IDs. PETG now falls back to `100003`, ABS to `100004`, TPU to `100005`, PA/Nylon to `100008`, and ASA to `100007`. Stock profile IDs remain unchanged. In particular, `101002` is Hyper L-W PLA, not PETG.
+
+Firmware 1.3.10 uses the same catalog for read-back labels. Deploy the updated app for corrected payload generation and update the programmer firmware for corrected device-side labels. This is separate from the earlier catalog-only change, which did not require a firmware update. Existing physical tags are not modified by an app/firmware update.
+
+Run the combined host regression suite from the repository root:
+
+```bash
+python3 mac-app/tests/run_tag_tests.py
+```
+
+It compiles the Swift encoder and the actual firmware material-ID lookup, checks all 47 outgoing payloads against the firmware decoder, checks the app/firmware catalog mirrors, and exercises fallback IDs, cloned-type changes, and invalid-input rejection. It does not drive the PN532, test RF positioning or authentication, or prove K2 acceptance.
+
+#### Deployment verification on 2026-10-18
+
+- Identified the connected programmer as ESP32-D0WD-V3 with 4 MB flash. Its existing partition table is `huge_app` (one 3 MB application slot), not an OTA two-slot layout.
+- Compiled firmware 1.3.10 using `esp32:esp32:esp32:PartitionScheme=huge_app,FlashMode=dio,FlashFreq=40` and the repository's libraries. Program storage: 1,923,836 / 3,145,728 bytes; global RAM: 68,412 bytes.
+- Compared the device partition table with the compiled table and confirmed an exact match. Flashed only the application at `0x10000` using 115200 baud; esptool verified the written image hash. Bootloader, partition table, and settings were not flashed.
+- Confirmed the running programmer reports `VERSION:1.3.10`, initializes the PN532, starts BLE, and reaches `READY`.
+- Attempts to read a complete rollback image failed with serial corruption; the partial dumps are not valid backups. Do not rely on them for recovery.
+- The K2 was actively printing, so no RFID rescan or filament movement was requested. Read-only inspection found slot B configured as Generic PETG (`filamentId: 000003`, `materialType: PETG`), but its stored raw RFID payload was `unknown`. No scan matching the rewritten pair's serial `280201` was found in the recent log windows checked. This confirms PETG slot configuration, **not** acceptance of the rewritten tags. Complete the physical rescan below when the printer is idle.
+- The host regression suite and full app source typecheck passed during development. A subsequent full app bundle build was cancelled; no updated production Mac app was installed.
+
+For physical verification after deployment:
+
+1. Read each of the two rewritten tags independently. For Generic PETG, both must report `ID:100003`, the same spool serial/color, and a PETG material label with firmware 1.3.10. Old firmware can report a raw ID for this profile; the ID is authoritative.
+2. If rewriting again, use the app's two-tag flow. Both `TAG1_WRITTEN` and `TAG2_WRITTEN` are required; each acknowledgement follows ciphertext read-back and full plaintext comparison. Keep the same pair's payload identical.
+3. Place the pair on the spool and perform an RFID rescan using the printer's normal controls while idle. Confirm the K2 itself identifies PETG and the intended color. Do not start a print relying only on the programmer's label.
+4. If `100003` still appears as PLA, collect the printer's scan result and both tag read-backs. Investigate authentication, tag compatibility/placement, and cached slot data separately instead of changing the material ID at random.
+
+### Standalone catalog checks
+
 From the repository root, compile and run the standalone checks; no printer connection is needed:
 
 ```bash
