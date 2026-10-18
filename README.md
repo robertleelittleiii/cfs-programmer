@@ -76,6 +76,9 @@ Located in `mac-app/`
 - WiFi configuration
 - OTA update manager
 - Version: 1.2.0
+- Built-in K2 catalog: **47 profiles across 20 filament types**, including seven profiles synchronized from the printer on 2026-10-18.
+
+[Mac app catalog changes and production update guide](docs/MAC_APP_UPDATES.md)
 
 ### 3. Documentation
 
@@ -123,10 +126,11 @@ open firmware/CFS_Handheld_v1.2_OTA/CFS_Handheld_v1.2_OTA.ino
 
 ```bash
 # Open Xcode project
-open mac-app/CFS\ Programmer.xcodeproj
+open "mac-app/CFS Programmer/CFS Programmer.xcodeproj"
 
 # Build and run (âŒ˜R)
 ```
+For an existing production installation, follow the [Mac app update guide](docs/MAC_APP_UPDATES.md) instead: back up its database and preserve its signing identity and sandbox before replacing the application.
 
 ### 4. First Use
 

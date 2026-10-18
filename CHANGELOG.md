@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to the CFS Programmer firmware will be documented in this file.
+All notable changes to the CFS Programmer firmware and Mac app will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
@@ -8,13 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Feature descriptions here
+- Mac app: seven printer-sourced Generic profiles: PET-CF (`00013`), PLA-HT-GF (`00040`), ABS-GF (`00041`), ABS-CF (`00042`), PET-GF15 (`00043`), PC-CF (`00044`), and ABS-FR (`00045`).
+- Standalone Swift catalog regression checks in `mac-app/tests/K2MaterialCatalogTests.swift`.
+- [Production Mac app update instructions](docs/MAC_APP_UPDATES.md), including database backup, signing, import verification, and rollback.
 
 ### Changed
-- Changes to existing features
+- Mac app stock catalog expanded from 40 profiles / 14 types to 47 profiles / 20 types, verified against a live K2 material database on 2026-10-18.
+- New profiles preserve printer IDs, names, densities, diameter, primary colors, and nozzle-temperature ranges. Unspecified ranges remain zero; default temperatures use the existing midpoint convention.
+- Preserved the printer's `PETG-GF` classification for Generic PET-GF15. Existing startup seeding imports the additions; no printer or programmer firmware update is required for this catalog change.
 
 ### Fixed
-- Bug fixes
+- (none yet)
 
 ## [1.2.0] - 2025-12-21
 
